@@ -1,0 +1,1 @@
+Hey, voici un exemple d'article.
