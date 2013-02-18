@@ -1,10 +1,12 @@
 ## Oak ##
-Oak est un moteur de blog tout simple, utilisant des fichiers markdown pour la publication.
+Oak est un moteur de blog tout simple, utilisant des fichiers markdown pour la publication.  
 Inspiré par [kiwi](http://jeunes-science.org/kiwi/) de [al.jes](http://aljes.me/)
 
 Merci à ces librairies (qui sont sous une autre licence) :
 * [PHP Markdown](http://michelf.com/projects/php-markdown/)
 * [PHP SmartyPants](http://michelf.ca/)
+
+Désolé pour le mélange français/anglais dans les commentaires, je savais pas comment me décider.
 
 ## License
 [WTFPL 2.0](http://sam.zoy.org/wtfpl/)
