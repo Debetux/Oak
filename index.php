@@ -13,6 +13,7 @@ require_once('smartypants.php');
 # Constants
 define('VERSION', '0.01');
 define('NOTES_DIRECTORY', './notes/'); # with final slash
+define('PAGES_DIRECTORY', './pages/'); # with final slash
 define('TEMPLATE_DIRECTORY', './template/'); # with final slash
 define('CACHE_DIRECTORY', './cache/'); # with final slash
 define('SITE_URL', 'http://localhost/me/Oak/');
@@ -20,9 +21,9 @@ date_default_timezone_set('Europe/Paris');
 setlocale(LC_TIME, "french");
 
 # Fonctions
-function fetch_notes() {
-	# Récupère les notes dans le dossier défini plus haut.
-	$files = scandir(NOTES_DIRECTORY);
+function fetch_files($directory) {
+	# Récupère les fichiers dans le dossier défini plus haut.
+	$files = scandir($directory);
 	$notes = array();
 
 	# $regex = '#^([a-zA-Z0-9].*)\.ma?r?k?do?w?n?$#';
@@ -32,14 +33,18 @@ function fetch_notes() {
 		if (preg_match($regex, $file)) :
 			$file_name = preg_replace($regex, "$1", $file);
 			$notes['name'][] = $file_name;
-			$notes['creation'][] = filectime(NOTES_DIRECTORY.$file);
-			$notes['modification'][] = filemtime(NOTES_DIRECTORY.$file);
+			$notes['creation'][] = filectime($directory.$file);
+			$notes['modification'][] = filemtime($directory.$file);
 		endif;
 	endforeach;
 
 	
 	krsort($notes['creation']);
-	return $notes;
+
+	if(!empty($notes))
+		return $notes;
+	else
+		return false;
 }
 
 function readable_date($date){
@@ -48,15 +53,14 @@ function readable_date($date){
 	return htmlentities(strftime('%A %d %B, %Hh%m', $date));
 }
 
-function fetch_note($name){
+function fetch_file($name, $directory){
 	$note['name'] = $name;
-	$note['content'] = SmartyPants(Michelf\Markdown::defaultTransform(file_get_contents(NOTES_DIRECTORY.$name.'.md')));
-	$note['creation'] = filectime(NOTES_DIRECTORY.$name.'.md');
+	$note['content'] = SmartyPants(Michelf\Markdown::defaultTransform(file_get_contents($directory.$name.'.md')));
+	$note['creation'] = filectime($directory.$name.'.md');
 	return $note;
 }
 
-function serve_cache($cachefile){
-	$cachetime = 1;
+function serve_cache($cachefile, $cachetime = 3600){
 	# Serve from the cache if it is younger than $cachetime
 	if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {
 		echo "<!-- Cached copy, generated ".date('H:i', filemtime($cachefile))." -->\n";
@@ -76,13 +80,16 @@ function write_cache($cachefile){
 
 /****************************************************************************************************/
 
+# Init pages :
+$pages = fetch_files(PAGES_DIRECTORY);
+
 if (empty($_GET)): # Liste des articles
 
 	# Start cache;
 	$cachefile = CACHE_DIRECTORY.'cached-index.html';
 	serve_cache($cachefile);
 
-		$notes = fetch_notes();
+		$notes = fetch_files(NOTES_DIRECTORY);
 		include(TEMPLATE_DIRECTORY.'header.php');
 		include(TEMPLATE_DIRECTORY.'notes_list.php');
 		include(TEMPLATE_DIRECTORY.'footer.php');
@@ -97,7 +104,7 @@ elseif (! empty($_GET['note']) && file_exists(NOTES_DIRECTORY.$_GET['note'].'.md
 	serve_cache($cachefile);
 
 		$note_name = urldecode($_GET['note']);
-		$note = fetch_note($note_name);
+		$note = fetch_file($note_name, NOTES_DIRECTORY);
 		include(TEMPLATE_DIRECTORY.'header.php');
 		include(TEMPLATE_DIRECTORY.'single_note.php');
 		include(TEMPLATE_DIRECTORY.'footer.php');
@@ -106,17 +113,34 @@ elseif (! empty($_GET['note']) && file_exists(NOTES_DIRECTORY.$_GET['note'].'.md
 	# End cache
 
 elseif (isset($_GET['archive'])):
+
 	# Start cache;
 	$cachefile = CACHE_DIRECTORY.'cached-archive.html';
 	serve_cache($cachefile);
 
-		$notes = fetch_notes();
+		$notes = fetch_files(NOTES_DIRECTORY);
 		include(TEMPLATE_DIRECTORY.'header.php');
 		include(TEMPLATE_DIRECTORY.'archive.php');
 		include(TEMPLATE_DIRECTORY.'footer.php');
 
 	write_cache($cachefile);
 	# End cache
+
+elseif (!empty($_GET['page']) && file_exists(PAGES_DIRECTORY.$_GET['page'].'.md')):
+
+	# Start cache;
+	$cachefile = CACHE_DIRECTORY.'cached-'.mb_strtolower($_GET['page']).'.html';
+	serve_cache($cachefile);
+
+		$note_name = urldecode($_GET['page']);
+		$note = fetch_file($note_name, PAGES_DIRECTORY);
+		include(TEMPLATE_DIRECTORY.'header.php');
+		include(TEMPLATE_DIRECTORY.'page.php');
+		include(TEMPLATE_DIRECTORY.'footer.php');
+
+	write_cache($cachefile);
+	# End cache
+
 else:
-	//header('HTTP/1.0 404 Not Found');
+	header('HTTP/1.0 404 Not Found');
 endif;

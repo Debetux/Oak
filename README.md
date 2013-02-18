@@ -1,10 +1,13 @@
 ## Oak ##
 Oak est un moteur de blog tout simple, utilisant des fichiers markdown pour la publication.  
-Inspiré par [kiwi](http://jeunes-science.org/kiwi/) de [al.jes](http://aljes.me/)
 
 Merci à ces librairies (qui sont sous une autre licence) :
 * [PHP Markdown](http://michelf.com/projects/php-markdown/)
 * [PHP SmartyPants](http://michelf.ca/)
+
+Crédits :
+* [kiwi](http://jeunes-science.org/kiwi/) de [al.jes](http://aljes.me/) pour l'idée
+* [How to create a simple and efficient PHP cache](http://www.catswhocode.com/blog/how-to-create-a-simple-and-efficient-php-cache) pour le système de cache
 
 Désolé pour le mélange français/anglais dans les commentaires, je savais pas comment me décider.
 
