@@ -1,0 +1,243 @@
+/*-----
+    ©2012 GGP & al.jes, certains droits réservés…
+    http://geekygoblin.org
+    http://aljes.me
+    Copyleft: cette oeuvre est libre, vous pouvez la copier, la diffuser et la modifier selon les termes de la Licence Art Libre http://www.artlibre.org
+    Pour plus d'information, visitez http://geekygoblin.org/mentions.htm
+-----*/
+
+/* 0 - Préliminaires */
+
+* {
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    line-height: 1.5!important;
+    margin: 0;
+    max-width: 100%;
+    outline: 0;
+    padding: 0;
+    text-decoration: none
+    vertical-align: baseline;
+}
+
+/*-----
+
+    couleur de fond :  #F1F1F1
+    couleur du texte : #121315
+    couleur secondaire : #DD3800
+
+-----*/
+
+/* 1 - Typographie */
+
+@font-face {
+    font-family: Libertine;
+    font-style: normal;
+    font-weight: normal;
+    src: url(libertine/semibold.woff) format('woff'),
+        url(libertine/semibold.otf) format('opentype'),
+        url(libertine/semibold.svg) format('svg');
+}
+
+@font-face {
+    font-family: Libertine;
+    font-style: italic;
+    font-weight: normal;
+    src: url(libertine/semibold-italic.woff) format('woff'),
+        url(libertine/semibold-italic.otf) format('opentype'),
+        url(libertine/semibold-italic.svg) format('svg');
+}
+
+@font-face {
+    font-family: Libertine;
+    font-style: normal;
+    font-weight: bold;
+    src: url(libertine/bold.woff) format('woff'),
+        url(libertine/bold.otf) format('opentype'),
+        url(libertine/bold.svg) format('svg');
+}
+
+@font-face {
+    font-family: Libertine;
+    font-style: italic;
+    font-weight: bold;
+    src: url(libertine/bold-italic.woff) format('woff'),
+        url(libertine/bold-italic.otf) format('opentype'),
+        url(libertine/bold-italic.svg) format('svg');
+}
+
+@font-face {
+    font-family: Liber-mono;
+    font-style: normal;
+    font-weight: normal;
+    src: url(libertine/mono.woff) format('woff'),
+        url(libertine/mono.otf) format('opentype'),
+        url(libertine/mono.svg) format('svg');
+}
+
+/* 2 - Général */
+
+html {
+    background-color: #F1F1F1;
+    color: #121315;
+    font-family: Libertine, serif;
+    font-size: 125%; /*=20px*/
+    -epub-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    text-align: justify;
+}
+
+body {
+    margin: 0 auto;
+    max-width: 600px;
+    width: 80%;
+}
+
+img, th, td {outline: solid 1px #CCCCCC;}
+table {border-collapse: collapse;}
+th, td {padding: 0 0.2rem;}
+
+em {font-style: italic;}
+strong {font-weight: bold;}
+sup {font-size: 0.6rem; line-height: 0.5;}
+
+p, ul, ol, pre {
+    list-style: inside;
+    margin-bottom: 1rem;
+}
+
+li p {margin-bottom: 0;}
+
+ol li {list-style: lower-roman;}
+.footnotes li {list-style: decimal;}
+ul li {list-style: none;}
+ul li::before {content: "– ";}
+dd::before {content: "→ ";}
+
+ol, ul, dl, blockquote {margin-left: 1rem;}
+
+q::before, q::after {content: "";}
+q {font-style: italic;}
+q em {font-style: normal;}
+
+blockquote p::before {content: "— ";}
+
+pre {margin-left: 1rem;}
+code {
+    font-family: Liber-mono, monospace;
+    font-size: 0.8rem;
+}
+
+a {
+    border-bottom: 1px solid #DD3800;
+    color: inherit;
+    margin-bottom: -1px;
+    text-decoration: none;
+}
+
+abbr, acronym, a.definition {
+    border-bottom: 1px dashed #DD3800;
+    margin-bottom: -1px;
+}
+
+a:hover, a:focus {
+    border-color: inherit;
+}
+
+hr {
+    border: 0;
+    height: 1rem;
+    margin: 1rem auto;
+    outline: 0;
+    width: 0;
+}
+hr::after {content: "❦";}
+
+.skip {
+    font-family: Liber-petit, Libertine, serif;
+    font-size: 0.7rem;
+    margin-bottom: 0.3rem;
+    text-align: right;
+}
+
+.skip p {margin: 0;}
+.skip a {margin-left: 0.5rem;}
+
+.gauche {text-align: left;}
+.centre {text-align: center;}
+.droite {text-align: right;}
+.double {
+    -moz-column-count: 2;
+    -moz-column-gap: 20px;
+    -moz-column-rule: 1px dotted;
+    -o-column-count: 2;
+    -o-column-gap: 20px;
+    -o-column-rule: 1px dotted;
+    -webkit-column-count: 2;
+    -webkit-column-gap: 20px;
+    -webkit-column-rule: 1px dotted;
+    column-count: 2;
+    column-gap: 20px;
+    column-rule: 1px dotted;
+}
+
+/* 3 - Titres */
+
+h1, h2 {text-align: center;}
+h3, h4, h5, h6 {text-align: left;}
+
+h1 {font-size: 1.8rem; margin: 4.1rem 0;}
+h2 {font-size: 1.5rem; margin: 1rem 0 0.5rem 0;}
+h3 {font-size: 1.3rem; margin: 0.7rem 0 0 0;}
+h4 {font-size: 1.2rem; margin: 0.8rem 0 0 0;}
+h5 {font-size: 1.1rem; margin: 0.9rem 0 0 0;}
+h6, .s-titre {font-size: 1rem;}
+
+h1 {font-weight: bold; text-transform: uppercase;}
+h2, h3 {font-variant: small-caps;}
+h4, h5, h6, .s-titre {
+    font-style: italic;
+    font-variant: normal;
+    font-weight: normal;
+    text-transform: none;
+}
+
+/* 4 - Menus */
+
+ul.menu {
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    font-variant: small-caps;
+    margin: -2px 0 3rem 0;
+    text-align: center;
+}
+
+.menu li {
+    display: inline-block;
+    list-style: none;
+    margin: 0 1rem;
+}
+
+.menu a {border: 0; margin: 0;}
+.menu a:focus, .menu a:hover {color: #DD3800;}
+
+.journal {}
+
+.menu li::before, .journal li::before {content: "";}
+
+/* 5 - Colophon */
+
+.colophon {
+    font-size: 0.8rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+a.logo {border: 0; margin: 0; text-transform: uppercase;}
+.logo img {
+    outline: 0;
+    width: 20%;
+}

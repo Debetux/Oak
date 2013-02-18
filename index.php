@@ -14,7 +14,7 @@ require_once('smartypants.php');
 define('VERSION', '0.01');
 define('NOTES_DIRECTORY', './notes/'); # with final slash
 define('PAGES_DIRECTORY', './pages/'); # with final slash
-define('TEMPLATE_DIRECTORY', './template/'); # with final slash
+define('TEMPLATE_DIRECTORY', './template/default/'); # with final slash
 define('CACHE_DIRECTORY', './cache/'); # with final slash
 define('SITE_URL', 'http://localhost/me/Oak/');
 date_default_timezone_set('Europe/Paris');

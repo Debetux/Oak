@@ -7,6 +7,7 @@ Merci à ces librairies (qui sont sous une autre licence) :
 
 Crédits :
 * [kiwi](http://jeunes-science.org/kiwi/) de [al.jes](http://aljes.me/) pour l'idée
+* [al.jes](http://aljes.me/) pour le thème par défaut (sous Licence Art Libre)
 * [How to create a simple and efficient PHP cache](http://www.catswhocode.com/blog/how-to-create-a-simple-and-efficient-php-cache) pour le système de cache
 
 Désolé pour le mélange français/anglais dans les commentaires, je savais pas comment me décider.

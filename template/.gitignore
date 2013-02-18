@@ -3,3 +3,4 @@
 # Except this file and another one
 !.gitignore
 !default/
+!default/*
