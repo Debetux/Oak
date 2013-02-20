@@ -60,7 +60,7 @@ function fetch_file($name, $directory){
 	return $note;
 }
 
-function serve_cache($cachefile, $cachetime = 1){
+function serve_cache($cachefile, $cachetime = 3600){
 	# Serve from the cache if it is younger than $cachetime
 	if (file_exists($cachefile) && time() - $cachetime < filemtime($cachefile)) {
 		echo "<!-- Cached copy, generated ".date('H:i', filemtime($cachefile))." -->\n";
@@ -83,14 +83,16 @@ function write_cache($cachefile){
 # Init pages :
 $pages = fetch_files(PAGES_DIRECTORY);
 # Start cache;
-if(! empty($_GET)) $get_key = array_keys($_GET); # Pour récépurer la valeur de $_GET quand une page ou une note est demandée (prend toujours la première valeur, si count($_GET > 1))
-$cache_name = (! empty($_GET['note']) || ! empty($_GET['page'])) ? mb_strtolower(urldecode($_GET[$get_key[0]])) : 'index'; # Pour avoir le nom du cache
-$cache_name = ($cache_name == 'index' && isset($_GET['archive'])) ? 'archive' : $cache_name; # Verif nom du cache si c'est pas archive (qui n'a pas de valeur)
-$cachefile = CACHE_DIRECTORY.'cached-'.$cache_name.'.html';
-serve_cache($cachefile);
+// if(! empty($_GET)) $get_key = array_keys($_GET); # Pour récépurer la valeur de $_GET quand une page ou une note est demandée (prend toujours la première valeur, si count($_GET > 1))
+// $cache_name = (! empty($_GET['note']) || ! empty($_GET['page'])) ? mb_strtolower(urldecode($_GET[$get_key[0]])) : 'index'; # Pour avoir le nom du cache
+// $cache_name = ($cache_name == 'index' && isset($_GET['archive'])) ? 'archive' : $cache_name; # Verif nom du cache si c'est pas archive (qui n'a pas de valeur)
+
 
 if (empty($_GET)): # Liste des articles
-
+	
+	$cache_name = 'index';
+	$cachefile = CACHE_DIRECTORY.'cached-'.$cache_name.'.html';
+	serve_cache($cachefile);
 	$notes = fetch_files(NOTES_DIRECTORY);
 	include(TEMPLATE_DIRECTORY.'header.php');
 	include(TEMPLATE_DIRECTORY.'notes_list.php');
@@ -98,6 +100,9 @@ if (empty($_GET)): # Liste des articles
 
 elseif (! empty($_GET['note']) && file_exists(NOTES_DIRECTORY.$_GET['note'].'.md')): # Une note en particulier
 
+	$cache_name = mb_strtolower(urldecode($_GET['note']));
+	$cachefile = CACHE_DIRECTORY.'cached-'.$cache_name.'.html';
+	serve_cache($cachefile);
 	$note_name = urldecode($_GET['note']);
 	$note = fetch_file($note_name, NOTES_DIRECTORY);
 	include(TEMPLATE_DIRECTORY.'header.php');
@@ -106,6 +111,9 @@ elseif (! empty($_GET['note']) && file_exists(NOTES_DIRECTORY.$_GET['note'].'.md
 
 elseif (isset($_GET['archive'])):
 
+	$cache_name = 'archive';
+	$cachefile = CACHE_DIRECTORY.'cached-'.$cache_name.'.html';
+	serve_cache($cachefile);
 	$notes = fetch_files(NOTES_DIRECTORY);
 	include(TEMPLATE_DIRECTORY.'header.php');
 	include(TEMPLATE_DIRECTORY.'archive.php');
@@ -113,12 +121,22 @@ elseif (isset($_GET['archive'])):
 
 elseif (!empty($_GET['page']) && file_exists(PAGES_DIRECTORY.$_GET['page'].'.md')):
 
+	$cache_name = mb_strtolower(urldecode($_GET['page']));
+	$cachefile = CACHE_DIRECTORY.'cached-'.$cache_name.'.html';
+	serve_cache($cachefile);
 	$note_name = urldecode($_GET['page']);
 	$note = fetch_file($note_name, PAGES_DIRECTORY);
 	include(TEMPLATE_DIRECTORY.'header.php');
 	include(TEMPLATE_DIRECTORY.'page.php');
 	include(TEMPLATE_DIRECTORY.'footer.php');
 
+elseif (isset($_GET['rss'])):
+
+	$cache_name = 'rss';
+	$cachefile = CACHE_DIRECTORY.'cached-'.$cache_name.'.html';
+	serve_cache($cachefile);
+	header('Content-type: application/xml; charset=UTF-8');
+	
 else:
 	header('HTTP/1.0 404 Not Found');
 	exit();
