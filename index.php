@@ -83,10 +83,6 @@ function write_cache($cachefile){
 # Init pages :
 $pages = fetch_files(PAGES_DIRECTORY);
 # Start cache;
-// if(! empty($_GET)) $get_key = array_keys($_GET); # Pour récépurer la valeur de $_GET quand une page ou une note est demandée (prend toujours la première valeur, si count($_GET > 1))
-// $cache_name = (! empty($_GET['note']) || ! empty($_GET['page'])) ? mb_strtolower(urldecode($_GET[$get_key[0]])) : 'index'; # Pour avoir le nom du cache
-// $cache_name = ($cache_name == 'index' && isset($_GET['archive'])) ? 'archive' : $cache_name; # Verif nom du cache si c'est pas archive (qui n'a pas de valeur)
-
 
 if (empty($_GET)): # Liste des articles
 	
