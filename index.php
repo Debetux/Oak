@@ -26,10 +26,9 @@ function fetch_files($directory) {
 	$files = scandir($directory);
 	$notes = array();
 
-	# $regex = '#^([a-zA-Z0-9].*)\.ma?r?k?do?w?n?$#';
 	$regex = '#^([a-zA-Z0-9].*)\.md$#';
 
-	foreach ($files as $file) :
+	foreach ($files as $file):
 		if (preg_match($regex, $file)) :
 			$file_name = preg_replace($regex, "$1", $file);
 			$notes['name'][] = $file_name;
@@ -76,6 +75,12 @@ function write_cache($cachefile){
 	fwrite($cached, ob_get_contents());
 	fclose($cached);
 	ob_end_flush(); # Send the output to the browser
+}
+
+function write_file($file, $content){
+	$file_op = fopen($file, 'w');
+	fwrite($file_op, $content);
+	fclose($file_op);
 }
 
 /****************************************************************************************************/
