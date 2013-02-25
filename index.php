@@ -11,7 +11,7 @@ require_once('Markdown.php');
 require_once('smartypants.php');
 
 # Constants
-define('VERSION', '0.01');
+define('VERSION', '0.02');
 define('NOTES_DIRECTORY', './notes/'); # with final slash
 define('PAGES_DIRECTORY', './pages/'); # with final slash
 define('TEMPLATE_DIRECTORY', './template/default/'); # with final slash
